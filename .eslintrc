@@ -1,6 +1,35 @@
 {
   "extends": [
     "oclif",
-    "oclif-typescript"
-  ]
+    "oclif-typescript",
+    "prettier"
+  ],
+  "rules": {
+    "no-warning-comments": "off",
+    "spaced-comment": [
+      "warn",
+      "always",
+      {
+        "markers": [
+          "-",
+          "+",
+          "TODO:",
+          "BUG:",
+          "FIXME:",
+          "!",
+          "^",
+          "$",
+          "%",
+          "~",
+          "`"
+        ]
+      }
+    ],
+    "unicorn/filename-case": [
+      "error",
+      {
+        "case": "camelCase"
+      }
+    ]
+  }
 }
