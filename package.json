@@ -6,7 +6,7 @@
   "bin": {
     "rules-import": "./bin/run"
   },
-  "bugs": "https://github.com/https://github.com/red-penguin-productions/repo/firebase-rules-import/issues",
+  "bugs": "https://github.com/red-penguin-productions/firebase-rules-import/issues",
   "dependencies": {
     "@oclif/command": "^1",
     "@oclif/config": "^1",
@@ -36,7 +36,7 @@
     "/bin",
     "/lib"
   ],
-  "homepage": "https://github.com/https://github.com/red-penguin-productions/repo/firebase-rules-import",
+  "homepage": "https://github.com/red-penguin-productions/firebase-rules-import",
   "keywords": [
     "oclif"
   ],
@@ -45,7 +45,7 @@
   "oclif": {
     "bin": "rules-import"
   },
-  "repository": "https://github.com/red-penguin-productions/repo/firebase-rules-import",
+  "repository": "https://github.com/red-penguin-productions/firebase-rules-import",
   "scripts": {
     "posttest": "eslint . --ext .ts --config .eslintrc",
     "prepack": "rimraf lib && tsc -b && oclif-dev readme",
