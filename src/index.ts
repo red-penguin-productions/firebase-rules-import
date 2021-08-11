@@ -1,29 +1,52 @@
-import {Command, flags} from '@oclif/command'
+import { Command, flags } from "@oclif/command";
+import getConfiguration from "./scripts/getConfiguration";
+import getImportData from "./scripts/getImportData";
 
 class RedPenguinProductionsFirebaseRulesImport extends Command {
-  static description = 'describe the command here'
+  static description =
+    "Combine rules that have been split into seperate files into a single file that can be uploaded to firebase, works with storage and firestore rules.";
 
   static flags = {
     // add --version flag to show CLI version
-    version: flags.version({char: 'v'}),
-    help: flags.help({char: 'h'}),
-    // flag with a value (-n, --name=VALUE)
-    name: flags.string({char: 'n', description: 'name to print'}),
-    // flag with no value (-f, --force)
-    force: flags.boolean({char: 'f'}),
-  }
+    version: flags.version({ char: "V" }),
+    help: flags.help({ char: "H" }),
+    key: flags.string({
+      char: "K",
+      description: "key of import statements, overrides configuration files",
+      dependsOn: ["output", "main"],
+    }),
+    main: flags.string({
+      char: "M",
+      description: "entry point to rules, overrides configuration files",
+      dependsOn: ["output", "key"],
+    }),
+    output: flags.string({
+      char: "O",
+      description: "file to output to, overrides configuration files",
+      dependsOn: ["main", "key"],
+    }),
+    ruleset: flags.string({
+      description:
+        "The ruleset that will be created, this could be at a product level (e.g. 'firestore', 'storage') or at a bucket level for storage rules (e.g. 'storage.bucket')",
+      multiple: true,
+      exclusive: ["output", "main", "key"],
+    }),
+  };
 
-  static args = [{name: 'file'}]
+  static args = [];
 
   async run() {
-    const {args, flags} = this.parse(RedPenguinProductionsFirebaseRulesImport)
+    const { flags } = this.parse(RedPenguinProductionsFirebaseRulesImport);
+    const config = getConfiguration(flags);
 
-    const name = flags.name ?? 'world'
-    this.log(`hello ${name} from .\\src\\index.ts`)
-    if (args.file && flags.force) {
-      this.log(`you input --force and --file: ${args.file}`)
+    this.log("configuration", config);
+    try {
+      await getImportData(config);
+      this.log("Rules file created");
+    } catch (error) {
+      this.error(error);
     }
   }
 }
 
-export = RedPenguinProductionsFirebaseRulesImport
+export = RedPenguinProductionsFirebaseRulesImport;

@@ -1,0 +1,5 @@
+match /databases/{database}/documents {
+    match /{document=**} {
+      @import "../blocked.rules";
+    }
+  }
