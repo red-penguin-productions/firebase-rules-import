@@ -5,6 +5,7 @@ import { readFile } from "./readFile";
 import { isImport } from "./isImport";
 import { hasImports } from "./hasImports";
 import { buildImportRegEx } from "./buildImportRegEx";
+import { flattenDeep } from "lodash";
 
 export const processFile = async (
   config: Configuration,
@@ -17,26 +18,25 @@ export const processFile = async (
     const importRegex = buildImportRegEx(key);
     const dir = dirname(path);
 
-    const result: string[] = [];
-    loc.forEach(async (value) => {
-      if (isImport(value, key)) {
-        importRegex.lastIndex = 0;
-        const m = importRegex.exec(value);
-        if (m) {
-          const newFile = `${dir}/${m[2]}`;
+    const result: Array<string | string[]> = await Promise.all(
+      loc.map(async (value): Promise<string | string[]> => {
+        if (isImport(value, key)) {
+          importRegex.lastIndex = 0;
+          const m = importRegex.exec(value);
+          if (m) {
+            const newFile = `${dir}/${m[2]}`;
 
-          const newLines = await buildPath(config, newFile);
-          result.push(...newLines);
-        } else {
+            const newLines = await buildPath(config, newFile);
+            return newLines;
+          }
           return Promise.reject(
             new Error("Import statement error, unable to pass:" + value)
           );
         }
-      } else {
-        result.push(value);
-      }
-    });
-    return result;
+        return value;
+      })
+    );
+    return flattenDeep(result);
   }
 
   return loc;
