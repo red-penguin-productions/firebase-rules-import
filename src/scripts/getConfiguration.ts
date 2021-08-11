@@ -8,7 +8,13 @@
  *
  * @return  {Configuration}  Configuration object
  */
-type GetConfiguration = () => Configuration;
+type GetConfiguration = (flags: {
+  version: void;
+  help: void;
+  key: string | undefined;
+  main: string | undefined;
+  output: string | undefined;
+}) => Configuration;
 
 export interface Configuration {
   main: string;
@@ -16,12 +22,12 @@ export interface Configuration {
   key: string;
 }
 
-const getConfiguration: GetConfiguration = () => {
-  //TODO: Get configuration and replace return
+const getConfiguration: GetConfiguration = (flags) => {
+  //TODO: Get configuration from files and replace return
   return {
-    main: "./src/index.rules",
-    output: "./firestore.rules",
-    key: "@import",
+    main: flags.main ?? "./src/index.rules",
+    output: flags.output ?? "./firestore.rules",
+    key: flags.key ?? "@import",
   };
 };
 

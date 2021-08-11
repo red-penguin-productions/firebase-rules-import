@@ -1,29 +1,27 @@
-import {Command, flags} from '@oclif/command'
+import { Command, flags } from "@oclif/command";
+import getConfiguration from "./scripts/getConfiguration";
 
 class RedPenguinProductionsFirebaseRulesImport extends Command {
-  static description = 'describe the command here'
+  static description =
+    "Combine rules that have been split into seperate files into a single file that can be uploaded to firebase, works with storage and firestore rules";
 
   static flags = {
     // add --version flag to show CLI version
-    version: flags.version({char: 'v'}),
-    help: flags.help({char: 'h'}),
-    // flag with a value (-n, --name=VALUE)
-    name: flags.string({char: 'n', description: 'name to print'}),
-    // flag with no value (-f, --force)
-    force: flags.boolean({char: 'f'}),
-  }
+    version: flags.version({ char: "V" }),
+    help: flags.help({ char: "H" }),
+    key: flags.string({ char: "K", description: "key of import statements" }),
+    main: flags.string({ char: "M", description: "entry point to rules" }),
+    output: flags.string({ char: "O", description: "file to output to" }),
+  };
 
-  static args = [{name: 'file'}]
+  static args = [{ name: "file" }];
 
   async run() {
-    const {args, flags} = this.parse(RedPenguinProductionsFirebaseRulesImport)
+    const { flags } = this.parse(RedPenguinProductionsFirebaseRulesImport);
+    const config = getConfiguration(flags);
 
-    const name = flags.name ?? 'world'
-    this.log(`hello ${name} from .\\src\\index.ts`)
-    if (args.file && flags.force) {
-      this.log(`you input --force and --file: ${args.file}`)
-    }
+    this.log("configuration", config);
   }
 }
 
-export = RedPenguinProductionsFirebaseRulesImport
+export = RedPenguinProductionsFirebaseRulesImport;
