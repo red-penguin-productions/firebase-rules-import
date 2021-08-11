@@ -8,27 +8,40 @@ class RedPenguinProductionsFirebaseRulesImport extends Command {
 
   static flags = {
     // add --version flag to show CLI version
-    version: flags.version({ char: "V" }),
-    help: flags.help({ char: "H" }),
+    version: flags.version({
+      char: "v",
+      description: "Show rules-import version",
+    }),
+    help: flags.help({ char: "h", description: "Show rules-import help" }),
     key: flags.string({
-      char: "K",
-      description: "key of import statements, overrides configuration files",
+      char: "k",
+      description:
+        "Key of import statements, overrides configuration files.\nDepends on 'main' and 'key' flags.\nNot compatible with the 'ruleset' or 'config' flags.",
       dependsOn: ["output", "main"],
     }),
     main: flags.string({
-      char: "M",
-      description: "entry point to rules, overrides configuration files",
+      char: "m",
+      description:
+        "Entry point to rules, overrides configuration files.\nDepends on 'main' and 'key' flags.\nNot compatible with the 'ruleset' or 'config' flags.",
       dependsOn: ["output", "key"],
     }),
     output: flags.string({
-      char: "O",
-      description: "file to output to, overrides configuration files",
+      char: "o",
+      description:
+        "File to output to, overrides configuration files.\nDepends on 'main' and 'key' flags.\nNot compatible with the 'ruleset' or 'config' flags.",
       dependsOn: ["main", "key"],
     }),
     ruleset: flags.string({
+      char: "r",
       description:
-        "The ruleset that will be created, this could be at a product level (e.g. 'firestore', 'storage') or at a bucket level for storage rules (e.g. 'storage.bucket')",
+        "The ruleset that will be created\nThis could be at a:\n - product level (e.g. 'firestore', 'storage')\n - bucket level for storage rules (e.g. 'storage.bucket').\n\nNot compatible with the 'key', 'main' and 'output' flags.",
       multiple: true,
+      exclusive: ["output", "main", "key"],
+    }),
+    config: flags.string({
+      char: "c",
+      description:
+        "Configuration file that replaces the auto find configuration engine.\nNot compatible with the 'key', 'main' and 'output' flags.\nCan be scoped down with the 'ruleset' flag.",
       exclusive: ["output", "main", "key"],
     }),
   };
