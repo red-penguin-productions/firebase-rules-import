@@ -1,6 +1,6 @@
 {
   "name": "@red-penguin-productions/firebase-rules-import",
-  "description": "Split rules into seperate files and import into a single file for uploading to firebase",
+  "description": "Combine rules that have been split into seperate files into a single file that can be uploaded to firebase, works with storage and firestore rules",
   "version": "0.0.0",
   "author": "Anthony Boyd @Bullfrog1234",
   "bin": {
@@ -23,8 +23,10 @@
     "eslint": "^5.13",
     "eslint-config-oclif": "^3.1",
     "eslint-config-oclif-typescript": "^0.1",
+    "eslint-config-prettier": "^8.3.0",
     "mocha": "^5",
     "nyc": "^14",
+    "prettier": "^2.3.2",
     "rimraf": "^3.0.2",
     "ts-node": "^8",
     "typescript": "^3.3"
