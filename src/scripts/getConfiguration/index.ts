@@ -1,3 +1,5 @@
+import { Configuration } from "./index.types";
+
 /**
  * Get the configuration from either:
  *  - package.json (key: "firebase-rules")
@@ -14,13 +16,9 @@ type GetConfiguration = (flags: {
   key: string | undefined;
   main: string | undefined;
   output: string | undefined;
+  ruleset: string[];
+  config: string | undefined;
 }) => Configuration;
-
-export interface Configuration {
-  main: string;
-  output: string;
-  key: string;
-}
 
 const getConfiguration: GetConfiguration = (flags) => {
   //TODO: Get configuration from files and replace return
